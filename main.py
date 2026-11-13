@@ -8,8 +8,8 @@ set_site_information(
     author="Elizabeth Davis",
     description="Discover new hobbies and overcome boredom.",
     sources="Thanks to the Drafter docs.",
-    planning=["Final Project 0_ Pick a Problem.pdf", "CS1 Final Project 1_Design.pdf"],
-    links=["https://github.com/ElizabethDavis15/Boredom-Buster2"]
+    planning=["Final Project 0_ Pick a Problem.pdf", "CS1 Final Project 1_Design.pdf,LLM Conversation.pdf",],
+    links=["https://github.com/ElizabethDavis15/Boredom-Buster"]
 )
 hide_debug_information()
 set_website_framed(False)
