@@ -316,7 +316,7 @@ def recommendation(state:State,mood_input:str,budget_input:str,group_input:str,l
     
     if len(matched) > 0:
         chosen_activity = sample(matched, 1)[0]
-        rec_text = f"Top recommendation: {chosen_activity.title}"
+        rec_text = chosen_activity.title
     else:
         rec_text = "No exact match found for your specific combination."
 
