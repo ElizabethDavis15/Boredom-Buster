@@ -3,7 +3,16 @@ from drafter import *
 from dataclasses import dataclass
 from random import sample, shuffle
 
-
+set_website_title("Boardom Buster")
+set_site_information(
+    author="Elizabeth Davis",
+    description="Discover new hobbies and overcome boredom.",
+    sources="Thanks to the Drafter docs.",
+    planning=["Final Project 0_ Pick a Problem.pdf", "CS1 Final Project 1_Design.pdf"],
+    links=["https://github.com/ElizabethDavis15/Boredom-Buster2"]
+)
+hide_debug_information()
+set_website_framed(False)
 
 @dataclass
 class Activity:
