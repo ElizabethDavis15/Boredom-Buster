@@ -264,7 +264,7 @@ def browse(state: State, loc_input: str = "All", mood_inp: str = "All", set_inp:
 
         if loc_match and mood_match and setting_match and cost_match:
             filtered_activities.append(act)
-    table_rows: list[list[str|int|float|bool]]=[
+    table_rows: list[list[Component|str|int|float|bool]]=[
         ["Name","location","Mood","setting","Cost"]
     ]
     for act in filtered_activities:
