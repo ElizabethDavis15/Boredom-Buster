@@ -25,7 +25,7 @@ class Activity:
 
 @dataclass
 class State:
-    """Main application state containing user preferences and activity list."""
+    """State containing user preferences and activity list."""
     selected_mood: str
     budget_max: int
     selected_group: str
@@ -96,7 +96,7 @@ initial_state = State(
 )
 
 def helper_filter(activities: list[Activity], mood: str, budget: int, group: str, location: str) -> list[Activity]:
-    """Filter activities based on mood, budget, group setting, and location."""
+    """Filter activities based on mood, budget, group or solo, and location."""
     filtered: list[Activity] = []
     for act in activities:  
         mood_match = (act.mood == mood)
@@ -136,7 +136,7 @@ assert_equal(helper_matches("Solo", "Solo"), True)
 assert_equal(helper_matches("Group", "Solo"), False)
 
 def helper_index() -> list:
-    """Generate standard navigation header buttons for application pages."""
+    """Generate standard header buttons for application pages."""
     return [
         Header("BOREDOM BUSTER", 1),
         Paragraph("Stuck for things to do? Find your ideal activity."),
@@ -186,7 +186,7 @@ def contact(state: State) -> Page:
     content = [
         *nav,
         Header("Contact Us", 2),
-        Paragraph("Have questions? Reach out to support@boredombuster.org"),
+        Paragraph("Have questions? Reach out to egdavis@udel.edu"),
     ]
     return Page(state, content)
 
@@ -297,7 +297,7 @@ assert_equal(type(browse(initial_state, "All", "All", "All", "50")), Page)
 @route
 def recommendation(state:State,mood_input:str,budget_input:str,group_input:str,location_input:str)->Page:
     """
-    Process user search filters, update state, and display a randomized recommendation.
+    Process user search filters from page finder, update the state dataclass, and display a randomized recommendation.
     Note: Due to randomization, this route is exempt from testing.
     """
     state.selected_mood = mood_input        
