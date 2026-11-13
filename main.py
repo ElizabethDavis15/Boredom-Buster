@@ -264,6 +264,11 @@ def browse(state: State, loc_input: str = "All", mood_inp: str = "All", set_inp:
 
         if loc_match and mood_match and setting_match and cost_match:
             filtered_activities.append(act)
+    table_rows: list[list[str|int|float|bool]]=[
+        ["Name","location","Mood","setting","Cost"]
+    ]
+    for act in filtered_activities:
+        table_rows.append([act.location, act.mood, act.setting, act.cost])
 
     nav = helper_index()
     content = [
@@ -287,7 +292,7 @@ def browse(state: State, loc_input: str = "All", mood_inp: str = "All", set_inp:
         ),
         TextBox("cost_inp", str(state.browse_cost)),
         Button("Apply Filters", "browse"),
-        Table(filtered_activities),
+        Table(table_rows),
         Button("Back to Finder", "finder"),
     ]
     return Page(state, content)
