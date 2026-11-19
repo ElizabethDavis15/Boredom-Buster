@@ -268,7 +268,7 @@ def browse(state: State, loc_input: str = "All", mood_inp: str = "All", set_inp:
         ["Name","location","Mood","setting","Cost"]
     ]
     for act in filtered_activities:
-        table_rows.append([act.location, act.mood, act.setting, act.cost])
+        table_rows.append([act.title, act.location, act.mood, act.setting, act.cost])
 
     nav = helper_index()
     content = [
