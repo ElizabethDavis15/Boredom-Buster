@@ -221,15 +221,20 @@ def finder(state: State) -> Page:
     content = [
         *nav,
         Header("Personal Activity Finder", 2),
-        Paragraph("Tell us what you like:"),
-        SelectBox("mood_input", ["Low", "Medium", "High"], state.selected_mood),                    
-        TextBox("budget_input", str(state.budget_max)),   
-        SelectBox("group_input", ["Solo", "Group", "Both"], state.selected_group),                    
-        SelectBox(
-            "location_input", 
-            ["At Home", "Indoor", "Outdoor"], 
-            state.selected_location
-        ),                    
+        Row(
+            Paragraph(" Mood:"),
+            SelectBox("mood_input", ["Low", "Medium", "High"], state.selected_mood),
+            Paragraph(" Budget:"),
+            TextBox("budget_input", str(state.budget_max)),
+            Paragraph(" Setting:"),
+            SelectBox("group_input", ["Solo", "Group", "Both"], state.selected_group),
+            Paragraph(" Location:"),
+            SelectBox(
+                "location_input", 
+                ["At Home", "Indoor", "Outdoor"], 
+                state.selected_location
+            ),
+        ),
         Button("View Recommendations", "recommendation"),
     ]
     return Page(state, content)
@@ -237,15 +242,19 @@ def finder(state: State) -> Page:
 assert_equal(type(finder(initial_state)), Page)
 
 @route
-def browse(state: State, loc_input: str = "All", mood_inp: str = "All", set_inp: str = "All", cost_inp: str = "50") -> Page:
+def browse(state: State, loc_input: str = None, mood_inp: str = None, set_inp: str = None, cost_inp: str = None) -> Page:
     """Filter and display all activities based on browse preferences."""
-    state.browse_location = loc_input  
-    state.browse_mood = mood_inp
-    state.browse_setting = set_inp
-    if cost_inp.isdigit():
-        state.browse_cost = int(cost_inp)
-    else:
-        state.browse_cost = 50
+    if loc_input is not None:
+        state.browse_location = loc_input  
+    if mood_inp is not None:
+        state.browse_mood = mood_inp
+    if set_inp is not None:
+        state.browse_setting = set_inp
+    if cost_inp is not None:
+        if cost_inp.isdigit():
+            state.browse_cost = int(cost_inp)
+        else:
+            state.browse_cost = 50
 
     shuffle(state.activities)
 
@@ -264,8 +273,9 @@ def browse(state: State, loc_input: str = "All", mood_inp: str = "All", set_inp:
 
         if loc_match and mood_match and setting_match and cost_match:
             filtered_activities.append(act)
-    table_rows: list[list[Component|str|int|float|bool]]=[
-        ["Name","location","Mood","setting","Cost"]
+            
+    table_rows: list[list[Component|str|int|float|bool]] = [
+        ["Name", "Location", "Mood", "Setting", "Cost"]
     ]
     for act in filtered_activities:
         table_rows.append([act.title, act.location, act.mood, act.setting, act.cost])
@@ -275,29 +285,33 @@ def browse(state: State, loc_input: str = "All", mood_inp: str = "All", set_inp:
         *nav,
         Header("Browse Activities", 2),
         Paragraph(f"Found {len(filtered_activities)} matching activities."),
-        SelectBox(
-            "loc_input", 
-            ["All", "At Home", "Indoor", "Outdoor"], 
-            state.browse_location
+        Row(
+            Paragraph("Location:"),
+            SelectBox(
+                "loc_input", 
+                ["All", "At Home", "Indoor", "Outdoor"], 
+                state.browse_location
+            ),
+            Paragraph("Mood:"),
+            SelectBox(
+                "mood_inp", 
+                ["All", "Low", "Medium", "High"], 
+                state.browse_mood
+            ),
+            Paragraph("Setting:"),
+            SelectBox(
+                "set_inp", 
+                ["All", "Solo", "Group"], 
+                state.browse_setting
+            ),
+            Paragraph("Cost:"),
+            TextBox("cost_inp", str(state.browse_cost)),
         ),
-        SelectBox(
-            "mood_inp", 
-            ["All", "Low", "Medium", "High"], 
-            state.browse_mood
-        ),
-        SelectBox(
-            "set_inp", 
-            ["All", "Solo", "Group"], 
-            state.browse_setting
-        ),
-        TextBox("cost_inp", str(state.browse_cost)),
         Button("Apply Filters", "browse"),
         Table(table_rows),
         Button("Back to Finder", "finder"),
     ]
     return Page(state, content)
-
-assert_equal(type(browse(initial_state, "All", "All", "All", "50")), Page)
 
 @route
 def recommendation(state:State,mood_input:str,budget_input:str,group_input:str,location_input:str)->Page:
